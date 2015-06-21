@@ -152,6 +152,7 @@
           g.translate(this.x, this.y);
           g.beginPath();
           g.arc(0, 0, this.r * canvas.height/300, 0, Math.PI * 2);
+          g.globalCompositeOperation = 'darker';
           g.fillStyle = this.color;
           g.fill();
           g.lineWidth = 2;
@@ -190,7 +191,7 @@
     
     var draw = function() {
       //g.globalCompositeOperation = 'source-over';
-      g.fillStyle = 'rgba(255, 255, 255, 0.18)';
+      g.fillStyle = 'rgba(255, 255, 255, 0.6)';
       g.fillRect(0, 0, g.canvas.width, g.canvas.height);
       //g.clearRect(0, 0, g.canvas.width, g.canvas.height);
       for(var i = 0; i < thingList.length; i++) {
@@ -237,14 +238,14 @@
       addThing('수성', 4.879, 57.91, 47.36, 'rgba(23, 23, 23, 0.78)');*/
 
       //dist
-      addThing('수성', 4.879, 57.91, 47.36, 'rgba(244, 255, 255, 0.13)');
-      addThing('금성', 12.104, 108.2, 35.02, 'rgba(255, 244, 244, 0.15)');
-      addThing('지구', 12.756, 149.6, 29.783, 'rgba(189, 237, 255, 0.13)');
-      addThing('화성', 6.787, 227.94, 24.077, 'rgba(255, 232, 232, 0.15)');
-      addThing('목성', 142.8, 778, 13.05624, 'rgba(255, 245, 235, 0.15)');
-      addThing('토성', 120.66, 1429, 9.639, 'rgba(255, 238, 199, 0.21)');
-      addThing('천왕성', 51.118, 2870.99, 6.795, 'rgba(217, 206, 255, 0.19)');
-      addThing('해왕성', 49.528, 4504.3, 5.43, 'rgba(255, 201, 247, 0.17)');
+      addThing('수성', 4.879, 57.91, 47.36, 'rgba(38, 55, 255, 0.79)');
+      addThing('금성', 12.104, 108.2, 35.02, 'rgba(255, 219, 23, 0.88)');
+      addThing('지구', 12.756, 149.6, 29.783, 'rgba(20, 210, 255, 0.81)');
+      addThing('화성', 6.787, 227.94, 24.077, 'rgba(255, 48, 48, 0.59)');
+      addThing('목성', 142.8, 778, 13.05624, 'rgba(255, 49, 113, 0.23)');
+      addThing('토성', 120.66, 1429, 9.639, 'rgba(48, 255, 120, 0.25)');
+      addThing('천왕성', 51.118, 2870.99, 6.795, 'rgba(98, 52, 255, 0.22)');
+      addThing('해왕성', 49.528, 4504.3, 5.43, 'rgba(152, 49, 255, 0.22)');
 
       loop();
     };
