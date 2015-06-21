@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body {
+        margin: 0;
+        background-color: black;  
+      }
+      
+      #title {
+        background-color: cyan;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+      }
+      
+      #stage {
+        cursor: crosshair;
+        transition: 1s;
+      }
+      canvas {
+        position: absolute;
+        clip: rect(0px,570px,890px,0px);
+      }
+    </style>
+  </head>
+  <body>
+      <canvas id="stage">
+        <audio id="해왕성" src="SFX_1.mp3" preload autoplay loop></audio>
+        <audio id="금성" src="SFX_2.mp3" preload autoplay loop></audio>
+        <audio id="화성" src="SFX_3.mp3" preload autoplay loop></audio>
+        <audio id="토성" src="SFX_4.mp3" preload autoplay loop></audio>
+        <audio id="천왕성" src="SFX_5.mp3" preload autoplay loop></audio>
+        <audio id="목성" src="SFX_6.mp3" preload autoplay loop></audio>
+        <audio id="수성" src="SFX_7.mp3" preload autoplay loop></audio>
+        <audio id="지구" src="SFX_8.mp3" preload autoplay loop></audio>
+      </canvas>
+  </body>
+  <script>
+    var canvas = document.querySelector('#stage');
+    var e = canvas.getContext('2d');
+    canvas.width = window.innerWidth - 10;
+    canvas.height = window.innerHeight - 10;
+    
+    var thingLis = [];
+    var frameCount = 0;
+    var time = 0;
+    
+    var doesCollide = function(a, b) {
+      var dx = b.x - a.x;
+      var dy = b.y - a.y;
+      var d = Math.sqrt(dx*dx + dy*dy);
+      var r = a.r + b.r;
+      if(d < r) {
+        return true;
+      }
+      return false;
+    };
+    
+    var random1 = function(min, max) {
+      return min + (max - min) * Math.random();
+    };
+    var random2 = function(min, max) {
+      return Math.floor(min + (max - min) * Math.random());
+    };
+    
+    var drawCircle = function(x, y, r) {
+      e.beginPath();
+      e.arc(x, y, r, 0, Math.PI * 2);
+      e.stroke();
+    };
+    
+    var drawB = function() {
+      e.globalCompositeOperation = "source-over";
+      for(var i = 0; i < thingLis.length; i++) {
+        var thingu = thingLis[i];
+        e.lineWidth = thingu.lineWidth;
+        e.strokeStyle = 'rgba('+ thingu.red + ',' + thingu.green + ',' + thingu.blue + ',' + thingu.opacity + ')';
+        drawCircle(thingu.x, thingu.y, Math.abs(thingu.r + thingu.dr));
+      }
+    };
+    
+    
+    
+    var g = canvas.getContext('2d');
+    
+    var thingList = [];
+    
+    var sun = {
+      x: g.canvas.width / 2,
+      y: g.canvas.height / 2,
+      r: 1394 * g.canvas.height / 3000,
+      color: 'white',
+      draw: function() {
+        g.save();
+        g.translate(this.x, this.y);
+        g.beginPath();
+        g.arc(0, 0, this.r, 0, Math.PI * 2);
+        g.fillStyle = this.color;
+        g.fill();
+        g.restore();
+        g.clip();
+      }
+    };
+    
+    var addThing = function(type, r, dist, speed, color) {
+      var thing = {
+        type: type,
+        dist: dist,
+        x: -this.dist/2,
+        y: 0,
+        r: r,
+        speed: speed,
+        color: color,
+        reset: function() {
+          this.x = -this.dist/2;
+          this.y = canvas.height / 2;
+        },
+        volume: 0,
+        update: function() {
+          var id = this.type;
+          var aud = document.getElementById(id);
+          var col = doesCollide(this, sun);
+          //volume control
+          aud.volume = this.volume;
+          if(col) {
+            if(this.volume < 0.9) {
+              this.volume += 0.005;
+            }
+          } else {
+            if(this.volume > 0.05) {
+              this.volume -= 0.005
+            }
+          };
+          
+          //mute control
+          /*if(col) {
+            aud.muted = false;
+          } else {
+            aud.muted = true;
+          };*/
+          
+          //animation
+          this.x += this.speed / 8 * canvas.width * 0.001;
+          if(this.x > canvas.width + this.dist/2) {
+            this.reset();
+          }
+        },
+        draw: function() {
+          g.save();
+          g.translate(this.x, this.y);
+          g.beginPath();
+          g.arc(0, 0, this.r * canvas.height/300, 0, Math.PI * 2);
+          g.fillStyle = 'rgba(56, 56, 56, 0.17)';
+          g.fill();
+          g.lineWidth = 2;
+          g.strokeStyle = this.color;
+          g.stroke();
+          g.restore();
+        }
+      };
+      
+      thing.reset();
+      thingList.push(thing);
+    };
+    
+    var update = function() {
+      time = frameCount / 60;
+      time01 = frameCount / 60;
+      time02 = frameCount / 60;
+      time03 = frameCount / 60;
+      time04 = frameCount / 60;
+      time05 = frameCount / 60;
+      time06 = frameCount / 60;
+      time07 = frameCount / 60;
+      time08 = frameCount / 60;
+      time09 = frameCount / 60;
+      time10 = frameCount / 60;
+      for(var i = 0; i < thingLis.length; i++) {
+        var thingu = thingLis[i];
+        thingu.dr = thingu.amp * Math.sin(time * 0.3 + thingu.phase);
+      }
+      for(var i = 0; i < thingList.length; i++) {
+        var thing = thingList[i];
+        thing.update();
+      }
+      frameCount++;
+    };
+    
+    sun.draw();
+    
+    var draw = function() {
+      //g.globalCompositeOperation = 'source-over';
+      g.fillStyle = 'rgba(255, 255, 255, 0.18)';
+      g.fillRect(0, 0, g.canvas.width, g.canvas.height);
+      //g.clearRect(0, 0, g.canvas.width, g.canvas.height);
+      for(var i = 0; i < thingList.length; i++) {
+        var thing = thingList[i];
+        thing.draw();
+      }
+    };
+    
+    var loop = function() {
+      update();
+      draw();
+      drawB();
+      requestAnimationFrame(loop);
+    };
+    
+    var setup = function() {
+      var cx = e.canvas.width / 2;
+      var cy = e.canvas.height / 2;
+      for(var i = 0; i < 40; i++) {
+        var thingu = {
+          x: cx,
+          y: cy,
+          r: i * 14,
+          dr: 30,
+          amp: random1(200, 500),
+          phase: random1(0, Math.PI * 2),
+          red : random2(180, 200),
+          green : random2(182, 190),
+          blue : random2(180, 200),
+          opacity: random1(0.01, 0.1),
+          lineWidth: random1(0.1, 2)
+        };
+        thingLis.push(thingu);
+      };
+      //size
+      /*addThing('목성', 142.8, 778, 13.05624, 'rgba(235, 235, 235, 0.72)');
+      addThing('토성', 120.66, 1429, 9.639, 'rgba(209, 209, 209, 0.69)');
+      addThing('천왕성', 51.118, 2870.99, 6.795, 'rgba(186, 186, 186, 0.56)');
+      addThing('해왕성', 49.528, 4504.3, 5.43, 'rgba(159, 159, 159, 0.69)');
+      addThing('지구', 12.756, 149.6, 29.783, 'rgba(113, 124, 128, 0.65)');
+      addThing('금성', 12.104, 108.2, 35.02, 'rgba(78, 78, 78, 0.74)');
+      addThing('화성', 6.787, 227.94, 24.077, 'rgba(54, 54, 54, 0.74)');
+      addThing('수성', 4.879, 57.91, 47.36, 'rgba(23, 23, 23, 0.78)');*/
+
+      //dist
+      addThing('수성', 4.879, 57.91, 47.36, 'rgba(244, 255, 255, 0.13)');
+      addThing('금성', 12.104, 108.2, 35.02, 'rgba(255, 244, 244, 0.15)');
+      addThing('지구', 12.756, 149.6, 29.783, 'rgba(189, 237, 255, 0.13)');
+      addThing('화성', 6.787, 227.94, 24.077, 'rgba(255, 232, 232, 0.15)');
+      addThing('목성', 142.8, 778, 13.05624, 'rgba(255, 245, 235, 0.15)');
+      addThing('토성', 120.66, 1429, 9.639, 'rgba(255, 238, 199, 0.21)');
+      addThing('천왕성', 51.118, 2870.99, 6.795, 'rgba(217, 206, 255, 0.19)');
+      addThing('해왕성', 49.528, 4504.3, 5.43, 'rgba(255, 201, 247, 0.17)');
+
+      loop();
+    };
+    //function(type, r, dist, speed, color) 
+    setup();
+  </script>
+</html>
