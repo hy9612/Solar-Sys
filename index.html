@@ -152,11 +152,9 @@
           g.translate(this.x, this.y);
           g.beginPath();
           g.arc(0, 0, this.r * canvas.height/300, 0, Math.PI * 2);
-          g.fillStyle = 'rgba(56, 56, 56, 0.17)';
+          g.fillStyle = this.color;
           g.fill();
           g.lineWidth = 2;
-          g.strokeStyle = this.color;
-          g.stroke();
           g.restore();
         }
       };
