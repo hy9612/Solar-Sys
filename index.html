@@ -142,7 +142,7 @@
           };*/
           
           //animation
-          this.x += this.speed / 10 * canvas.width * 0.001;
+          this.x += this.speed / 13 * canvas.width * 0.001;
           if(this.x > canvas.width + this.dist/2) {
             this.reset();
           }
@@ -151,7 +151,7 @@
           g.save();
           g.translate(this.x, this.y);
           g.beginPath();
-          g.arc(0, 0, this.r * canvas.height/300, 0, Math.PI * 2);
+          g.arc(0, 0, this.r, 0, Math.PI * 2);
           g.globalCompositeOperation = 'darker';
           g.fillStyle = this.color;
           g.fill();
