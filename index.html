@@ -108,15 +108,15 @@
       var thing = {
         type: type,
         dist: dist,
-        x: -this.dist/2,
+        x: -this.dist,
         y: 0,
         r: r * g.canvas.height / 3000,
-        speed: speed / 18 * canvas.width * 0.001,
-        mspeed: -speed / 18 * canvas.width * 0.001,
-        pspeed: speed / 18 * canvas.width * 0.001,
+        speed: speed / 7 * canvas.width * 0.001,
+        mspeed: -speed / 7 * canvas.width * 0.001,
+        pspeed: speed / 7 * canvas.width * 0.001,
         color: color,
         reset: function() {
-          this.x = -this.dist/2;
+          this.x = -this.dist;
           this.y = canvas.height / 2;
         },
         volume: 0,
@@ -146,9 +146,9 @@
           //animation
           
           this.x += this.speed;
-          if(this.x >= canvas.width + this.dist/2) {
+          if(this.x >= canvas.width + this.dist) {
             this.speed = this.mspeed;
-          } else if (this.x <= -this.dist/2) {
+          } else if (this.x <= -this.dist) {
             this.speed = this.pspeed;
           }
         },
@@ -156,7 +156,7 @@
           g.save();
           g.translate(this.x, this.y);
           g.beginPath();
-          g.arc(0, 0, this.r * 1.1, 0, Math.PI * 2);
+          g.arc(0, 0, this.r * 1.2, 0, Math.PI * 2);
           g.globalCompositeOperation = 'darken';
           g.fillStyle = this.color;
           g.fill();
@@ -196,7 +196,7 @@
     
     var draw = function() {
       //g.globalCompositeOperation = 'source-over';
-      g.fillStyle = 'rgba(255, 255, 255, 0.5)';
+      g.fillStyle = 'rgba(255, 255, 255, 0.2)';
       g.fillRect(0, 0, g.canvas.width, g.canvas.height);
       //g.clearRect(0, 0, g.canvas.width, g.canvas.height);
       for(var i = 0; i < thingList.length; i++) {
@@ -248,9 +248,9 @@
       addThing('지구', 12.756, 149.6, 29.783, 'rgba(20, 210, 255, 0.89)');
       addThing('화성', 6.787, 227.94, 24.077, 'rgba(255, 48, 48, 0.83)');
       addThing('목성', 142.8, 778, 13.05624, 'rgba(255, 49, 113, 0.05)');
-      addThing('토성', 120.66, 1429, 9.639, 'rgba(48, 255, 120, 0.1)');
-      addThing('천왕성', 51.118, 2870.99, 6.795, 'rgba(98, 52, 255, 0.05)');
-      addThing('해왕성', 49.528, 4504.3, 5.43, 'rgba(152, 49, 255, 0.05)');
+      addThing('토성', 120.66, 1429, 9.639, 'rgba(48, 255, 120, 0.3)');
+      addThing('천왕성', 51.118, 2870.99, 6.795, 'rgba(98, 52, 255, 0.2)');
+      addThing('해왕성', 49.528, 4504.3, 5.43, 'rgba(152, 49, 255, 0.2)');
 
       loop();
     };
